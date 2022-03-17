@@ -6,7 +6,7 @@
 /*   By: csangkhe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 14:57:17 by csangkhe          #+#    #+#             */
-/*   Updated: 2022/03/17 22:42:39 by csangkhe         ###   ########.fr       */
+/*   Updated: 2022/03/17 22:54:06 by csangkhe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*remove_line(char *str)
 		free(str);
 		return (NULL);
 	}
-	str = (char *)malloc(sizeof(char) * (ft_strlen(str) - n_str));
+	remove = (char *)malloc(sizeof(char) * (ft_strlen(str) - n_str));
 	if (!str)
 		return (NULL);
 	n_str++;
@@ -126,7 +126,7 @@ char	*get_str(int fd, char *str)
 	if (!temp)
 		return (NULL);
 	index = 1;
-	while (!fine_newline(str) && index != 0)
+	while (!find_newline(str) && index != 0)
 	{
 		index = read(fd, str, BUFFER_SIZE);
 		if (index == -1)
