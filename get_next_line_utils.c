@@ -6,23 +6,26 @@
 /*   By: csangkhe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 14:57:17 by csangkhe          #+#    #+#             */
-/*   Updated: 2022/03/17 22:54:06 by csangkhe         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:54:57 by csangkhe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*find_newline(char *str)
+bool	ft_checknewline(char *str)
 {
+	int	index;
+
+	index = 0;
 	if (!str)
-		return (NULL);
-	while (*str)
+		return (false);
+	while (str[index])
 	{
-		if (*str == '\n')
-			return (str);
-		str++;
+		if (str[index] == '\n')
+			return (true);
+		index++;
 	}
-	return (NULL);
+	return (false);
 }
 
 size_t	ft_strlen(char *str)
@@ -30,9 +33,7 @@ size_t	ft_strlen(char *str)
 	size_t	len;
 
 	len = 0;
-	if (!str)
-		return (0);
-	while (str[len] != '\0')
+	while (str[len])
 		len++;
 	return (len);
 }
@@ -40,38 +41,40 @@ size_t	ft_strlen(char *str)
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
-	int		len;
-	int		index;
+	size_t	index;
 
-	len = ft_strlen(s1) + ft_strlen(s2) + 1;
-	index = 0;
-	str = (char *) malloc(sizeof(char) * len);
-	if (!str)
-		return (NULL);
-	while (*s1 != '\0')
+	if (!s1)
 	{
-		str[index] = s1[index];
-		index++;
+		s1 = (char *) malloc(1);
+		s1[0] = '\0';
 	}
-	free(s1);
-	while (*s2 != '\0')
+	if (!s2)
+		return (NULL);
+	index = -1;
+	str = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (str == NULL)
+		return (NULL);
+	if (s1)
+		while (s1[++index])
+			str[index] = s1[index];
+	while (*s2)
 	{
-		str[index] = *s2;
-		index++;
+		str[index++] = *s2;
 		s2++;
 	}
 	str[index] = '\0';
+	free(s1);
 	return (str);
 }
 
-char	*remove_line(char *str)
+char	*ft_remainstr(char *str)
 {
-	char	*remove;
+	char	*remain;
 	int		n_str;
-	int		n_remove;
+	int		n_remain;
 
 	n_str = 0;
-	n_remove = 0;
+	n_remain = 0;
 	while (str[n_str] && (str[n_str] != '\n'))
 		n_str++;
 	if (!str[n_str])
@@ -79,18 +82,18 @@ char	*remove_line(char *str)
 		free(str);
 		return (NULL);
 	}
-	remove = (char *)malloc(sizeof(char) * (ft_strlen(str) - n_str));
-	if (!str)
+	remain = (char *)malloc(sizeof(char) * (ft_strlen(str) - n_str + 1));
+	if (!remain)
 		return (NULL);
 	n_str++;
 	while (str[n_str])
-		remove[n_remove++] = str[n_str++];
-	remove[n_remove] = '\0';
+		remain[n_remain++] = str[n_str++];
+	remain[n_remain] = '\0';
 	free(str);
-	return (remove);
+	return (remain);
 }
 
-char	*get_line(char *str)
+char	*ft_getstr(char *str)
 {
 	char	*line;
 	int		index;
@@ -102,7 +105,7 @@ char	*get_line(char *str)
 		index++;
 	if (str[index] == '\n')
 		index++;
-	line = (char *) malloc(sizeof(char) * ++index);
+	line = (char *) malloc(sizeof(char) * (index + 1));
 	if (!line)
 		return (NULL);
 	index = 0;
@@ -112,31 +115,7 @@ char	*get_line(char *str)
 		index++;
 	}
 	if (str[index] == '\n')
-		str[index++] = '\n';
-	str[index] = '\0';
+		line[index++] = '\n';
+	line[index] = '\0';
 	return (line);
-}
-
-char	*get_str(int fd, char *str)
-{
-	char	*temp;
-	int		index;
-
-	temp = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!temp)
-		return (NULL);
-	index = 1;
-	while (!find_newline(str) && index != 0)
-	{
-		index = read(fd, str, BUFFER_SIZE);
-		if (index == -1)
-		{
-			free(temp);
-			return (NULL);
-		}
-		temp[index] = '\0';
-		str = ft_strjoin(str, temp);
-	}
-	free(temp);
-	return (str);
 }

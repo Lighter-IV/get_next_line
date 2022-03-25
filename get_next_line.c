@@ -6,7 +6,7 @@
 /*   By: csangkhe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 13:22:59 by csangkhe          #+#    #+#             */
-/*   Updated: 2022/03/17 22:52:13 by csangkhe         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:52:46 by csangkhe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,29 @@
 
 char	*get_next_line(int fd)
 {
-	char		*line_str;
-	static char	*all_str;	
+	char		*str;
+	static char	*buffer;
+	int			status;	
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
-	all_str = get_str(fd, all_str);
-	if (!all_str)
+	str = (char *) malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!str)
 		return (NULL);
-	line_str = get_line(all_str);
-	all_str = remove_line(all_str);
-	return (line_str);
+	status = 1;
+	while (!ft_checknewline(buffer) && status != 0)
+	{
+		status = read(fd, str, BUFFER_SIZE);
+		if (status == -1)
+		{
+			free(str);
+			return (NULL);
+		}
+		str[status] = '\0';
+		buffer = ft_strjoin(buffer, str);
+	}
+	free(str);
+	str = ft_getstr(buffer);
+	buffer = ft_remainstr(buffer);
+	return (str);
 }

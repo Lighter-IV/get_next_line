@@ -6,7 +6,7 @@
 /*   By: csangkhe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 10:37:37 by csangkhe          #+#    #+#             */
-/*   Updated: 2022/03/17 22:35:45 by csangkhe         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:41:02 by csangkhe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdbool.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 500
 # endif
 
 char	*get_next_line(int fd);
-char	*get_str(int fd, char *str);
-char	*get_line(char *str);
-char	*remove_line(char *str);
+char	*ft_getstr(char *str);
+char	*ft_remainstr(char *str);
 char	*ft_strjoin(char *s1, char *s2);
-char	*find_newline(char *str);
+bool	ft_checknewline(char *str);
 size_t	ft_strlen(char *s);
 
 #endif
