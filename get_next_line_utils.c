@@ -6,7 +6,7 @@
 /*   By: csangkhe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 14:57:17 by csangkhe          #+#    #+#             */
-/*   Updated: 2022/03/25 18:00:19 by csangkhe         ###   ########.fr       */
+/*   Updated: 2022/03/25 22:19:25 by csangkhe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,13 @@
 
 bool	ft_checknewline(char *str)
 {
-	int	index;
-
-	index = 0;
 	if (!str)
 		return (false);
-	while (str[index])
+	while (*str)
 	{
-		if (str[index] == '\n')
+		if (*str == '\n')
 			return (true);
-		index++;
+		str++;
 	}
 	return (false);
 }
@@ -40,7 +37,7 @@ size_t	ft_strlen(char *str)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*str;
+	char	*strjoin;
 	size_t	index;
 
 	if (!s1)
@@ -51,20 +48,19 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s2)
 		return (NULL);
 	index = -1;
-	str = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (str == NULL)
+	strjoin = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (strjoin == NULL)
 		return (NULL);
-	if (s1)
-		while (s1[++index])
-			str[index] = s1[index];
+	while (s1[++index])
+		strjoin[index] = s1[index];
 	while (*s2)
 	{
-		str[index++] = *s2;
+		strjoin[index++] = *s2;
 		s2++;
 	}
-	str[index] = '\0';
+	strjoin[index] = '\0';
 	free(s1);
-	return (str);
+	return (strjoin);
 }
 
 char	*ft_remainstr(char *str)
@@ -95,7 +91,7 @@ char	*ft_remainstr(char *str)
 
 char	*ft_getstr(char *str)
 {
-	char	*line;
+	char	*strline;
 	int		index;
 
 	index = 0;
@@ -105,17 +101,17 @@ char	*ft_getstr(char *str)
 		index++;
 	if (str[index] == '\n')
 		index++;
-	line = (char *) malloc(sizeof(char) * (index + 1));
-	if (!line)
+	strline = (char *) malloc(sizeof(char) * (index + 1));
+	if (!strline)
 		return (NULL);
 	index = 0;
 	while (str[index] && (str[index] != '\n'))
 	{
-		line[index] = str[index];
+		strline[index] = str[index];
 		index++;
 	}
 	if (str[index] == '\n')
-		line[index++] = '\n';
-	line[index] = '\0';
-	return (line);
+		strline[index++] = '\n';
+	strline[index] = '\0';
+	return (strline);
 }
