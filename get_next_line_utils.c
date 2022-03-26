@@ -6,7 +6,7 @@
 /*   By: csangkhe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 14:57:17 by csangkhe          #+#    #+#             */
-/*   Updated: 2022/03/25 22:19:25 by csangkhe         ###   ########.fr       */
+/*   Updated: 2022/03/26 15:16:56 by csangkhe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	index = -1;
 	strjoin = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (strjoin == NULL)
+	if (!strjoin)
 		return (NULL);
 	while (s1[++index])
 		strjoin[index] = s1[index];
